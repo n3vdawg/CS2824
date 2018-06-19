@@ -1,0 +1,96 @@
+# Your names:
+#
+#
+#
+#
+
+# Did you copy and paste code from any online source?
+
+# Note: you are not allowed to do so for this assignment.
+# Your answer should generally be "no". But if you did,
+# mark the code clearly and explain here why you needed to do so.
+
+# Did you collaborate with someone outside your team?
+# If yes, explain what you obtained from the collaboration.
+
+# Did you post queries on online forums (such as stackoverflow, ..)
+# related to this assignment?
+# If yes, post the links here.
+
+
+# If you have import statements, please explain in comments
+# why you need them. You can be very brief.
+import sys
+# sys has useful utilities.
+
+from time import clock as time_clock
+# Time is being imported to measure
+# running time for the factorize
+# function
+
+
+
+
+# This is the brute force algorithm.
+# You are being asked to improve upon this
+def factorize(n):
+    for i in range(2, n-1):
+        if n % i == 0:
+            return i
+    assert False, 'You gave me a prime number to factor'
+    return -1
+
+
+# Improve on factorize function above:
+# Call your functions factorize1, factorize2, ...
+# Please write a brief comment before each function to describe
+# the improvements you are trying out.
+
+# def factorize1(n):
+# ...
+
+#def factorize2(n):
+# ...
+
+#def factorize3(n):
+# ...
+
+
+#def factorize4(n):
+# ...
+
+# ...
+
+
+
+
+# Below we have test code:
+# to test your function say factorize2, you would simply call
+
+# python3 factorize_main.py factorize2
+
+if __name__ == '__main__':
+    # First parse command line arguments and figure out which
+    # function we want to test
+    if len(sys.argv) == 0:
+        fun = factorize
+    else:
+        fun_to_call = sys.argv[1]
+        assert fun_to_call in globals(), ('You did not implement '+fun_to_call)
+        globals_copy= globals().copy()
+        fun = globals_copy.get(fun_to_call)
+    # Open the file with list of numbers
+    f = open('composite_list.txt', 'r')
+    # test each number
+    for line in f:
+        n = int(line)
+        print('Factoring', n, '(', len(line), 'digits ): ', end='')
+        t1 = time_clock() # Record time
+        p = fun(n)
+        t2 = time_clock() # Record time
+        time_elapsed = t2 - t1  # seconds
+        print('Factor = ', p, ' other factor = ', n/p, ' Time Elapsed: ', time_elapsed)
+        if n % p != 0:
+            print('Factorization failed for: ', n)
+            sys.exit(1)
+    f.close()
